@@ -1,9 +1,12 @@
+#pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
+
 #include <iomanip>
 #include <iostream>
 #include <fstream>
 #include <string.h>
 #include "Vector2D.h"
 #include <map>
+#include <type_traits>
 
 void Pause()
 {
@@ -36,10 +39,15 @@ int main()
 		 ******************************************************************************/
 
 		std::ifstream infile;
-		std::string fileName = "ointData.dat";
+		std::string fileName = "PointData.dat";
+		std::string emptyCheck{};
 
 		infile.open(fileName.c_str());
-
+		if (infile.peek() == std::ifstream::traits_type::eof() && infile.is_open())
+		{
+			throw std::runtime_error("The map is empty. Check that the file contains valid data in the correct format.\n\n");
+		}
+		
 		if (infile.is_open())
 		{
 			std::string key;
@@ -64,8 +72,11 @@ int main()
 		}
 		else
 		{
-			throw std::runtime_error("The file could not be found, check if it exists.");
+						
+				throw std::runtime_error("The file could not be found, check if it exists.");
+			
 		}
+		
 
 		/******************************************************************************
 		 *	Determine the Total Distance Between All Points in Order:
@@ -138,7 +149,12 @@ int main()
 	 	std::cerr << "An exception was thrown: " << e.what() <<  std::endl << std::endl;
 	 	std::cout << "---------------------------------" << std::endl;
 	 	Pause();
-
+	 }
+	 catch (...)
+	 {
+		 std::cerr << "Am error occured at run-time: " << strerror(errno) << std::endl << std::endl;
+		 std::cout << "---------------------------------" << std::endl;;
+		 Pause();
 	 }
 
 	// END-OF-PROGRAM
