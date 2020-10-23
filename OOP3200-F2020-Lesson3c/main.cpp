@@ -36,8 +36,7 @@ int main()
 		 ******************************************************************************/
 
 		std::ifstream infile;
-		std::string fileName = "PointData.dat";
-		infile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		std::string fileName = "ointData.dat";
 
 		infile.open(fileName.c_str());
 
@@ -62,6 +61,10 @@ int main()
 				pointsMap[key] = temp_object;
 			}
 			infile.close();
+		}
+		else
+		{
+			throw std::runtime_error("The file could not be found, check if it exists.");
 		}
 
 		/******************************************************************************
@@ -130,20 +133,13 @@ int main()
 	 *	occurred and show what exception was thrown.
 	 ******************************************************************************/
 
-	 catch(const std::ifstream::failure& e)  // an exception was thrown
+	 catch(std::exception e)  // an exception was thrown
 	 {
-	 	std::cerr << "PointsData.dat could not be opened for input. Check that the file exists." << std::endl << std::endl;
+	 	std::cerr << "An exception was thrown: " << e.what() <<  std::endl << std::endl;
 	 	std::cout << "---------------------------------" << std::endl;
 	 	Pause();
 
 	 }
-	catch (...)
-	{
-		std::cerr << "An error occured at run-time: map::at" << std::endl << std::endl;
-		std::cout << "---------------------------------" << std::endl;
-		Pause();
-	}
-
 
 	// END-OF-PROGRAM
 
