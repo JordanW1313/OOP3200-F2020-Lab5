@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="MockDataForTesting.txt" />
+    <Text Include="Test.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PointData.dat" />

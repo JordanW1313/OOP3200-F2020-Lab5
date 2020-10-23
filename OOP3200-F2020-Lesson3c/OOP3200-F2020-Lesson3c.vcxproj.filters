@@ -37,6 +37,9 @@
     <Text Include="MockDataForTesting.txt">
       <Filter>Data Files</Filter>
     </Text>
+    <Text Include="Test.txt">
+      <Filter>Data Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="PointData.dat">
