@@ -43,6 +43,7 @@ int main()
 		std::string emptyCheck{};
 
 		infile.open(fileName.c_str());
+
 		if (infile.peek() == std::ifstream::traits_type::eof() && infile.is_open())
 		{
 			throw std::runtime_error("The map is empty. Check that the file contains valid data in the correct format.\n\n");
@@ -94,6 +95,7 @@ int main()
 		while (iter != --pointsMap.end())
 		{
 			float distance;
+
 			Vector2D<int> point1 = *iter->second;
 
 			Vector2D<int> point2 = *std::next(iter, 1)->second;
