@@ -1,3 +1,16 @@
+/****************************************************************
+* Name: Jordan Wriker & Ahmed Rizvi
+* Date: 25th October, 2020
+* Course: OOP-3200
+* File: OOP3200-F2020-Lab5
+* Purpose: The purpose of lab is to demonstrate the use of the STL.
+*		   In this case, we use the <map> template library to make
+*		   use of "mapping" objects with an identifier/label. The
+*		   label is then used to access the objects in practical
+*		   use case scenarios.
+*
+******************************************************************/
+
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 
 #include <iomanip>
@@ -8,6 +21,7 @@
 #include <map>
 #include <type_traits>
 
+// Method to pause the program until the user decides to move forward.
 void Pause()
 {
 	std::cout << "\nPress \'ENTER\' to continue..." << std::endl;
@@ -24,7 +38,7 @@ int main()
 
 		std::map<std::string, Vector2D<int>*> pointsMap;
 		std::string input{};
-		float overallDistance{};
+		float overallDistance{}; // Holds sum of distance between each point.
 
 		/******************************************************************************
 		 *	Reading Labels/Points into the Map:
@@ -43,17 +57,18 @@ int main()
 		std::string emptyCheck{};
 
 		infile.open(fileName.c_str());
-		if (infile.peek() == std::ifstream::traits_type::eof() && infile.is_open())
+		if (infile.peek() == std::ifstream::traits_type::eof() && infile.is_open()) // The file is empty.
 		{
+			// Throw an empty file error.
 			throw std::runtime_error("The map is empty. Check that the file contains valid data in the correct format.\n\n");
 		}
 		
-		if (infile.is_open())
+		if (infile.is_open()) // The file successfully opened for reading. 
 		{
 			std::string key;
 			int x, y;
 
-			while (!infile.fail())
+			while (!infile.fail()) // Keep reading until failing to read occurs.
 			{
 				infile >> key;
 				infile.ignore(1, ' ');
@@ -70,11 +85,9 @@ int main()
 			}
 			infile.close();
 		}
-		else
-		{
-						
+		else // The file name was not found within the project, throw an error.
+		{		
 				throw std::runtime_error("The file could not be found, check if it exists.");
-			
 		}
 		
 
@@ -89,21 +102,22 @@ int main()
 		 *	to the user how many points the map contains and what the total distance is.
 		 ******************************************************************************/
 
-		std::map<std::string, Vector2D<int>*>::iterator iter = pointsMap.begin();
+		std::map<std::string, Vector2D<int>*>::iterator iter = pointsMap.begin(); // Iterator begins with the first point on the map.
 
-		while (iter != --pointsMap.end())
+		while (iter != --pointsMap.end()) // Loop until the there are no more points on the map.
 		{
 			float distance;
 			Vector2D<int> point1 = *iter->second;
 
 			Vector2D<int> point2 = *std::next(iter, 1)->second;
 
-			distance = Vector2D<int>::Distance(point1, point2);
+			distance = Vector2D<int>::Distance(point1, point2); // Calculate distance between the current two points.
 
-			overallDistance += distance;
+			overallDistance += distance; // Add the calculated distance to overall sum.
 
-			iter++;
+			iter++; // increase the iterator to move onto the next set of two points.
 		}
+		// Display the overall distance summed to the user.
 		std::cout << "The map contains " << pointsMap.size() << " points for a total distance of " << overallDistance << ".\n" << std::endl;
 
 		/******************************************************************************
@@ -116,10 +130,10 @@ int main()
 		 *	Repeat these steps until the user enters "quit".
 		 ******************************************************************************/
 
-		while (input != "quit")
+		while (input != "quit") // Keep the loop going until the user decides to stop. 
 		{
 			std::cout << "Enter the label of the point you wish to go to (\"quit\" to end): ";
-			std::getline(std::cin, input);
+			std::getline(std::cin, input); // Get the label to search for.
 			std::cout << std::endl;
 
 			iter = pointsMap.find(input);
@@ -133,7 +147,7 @@ int main()
 			}
 			else if (input != "quit") // Could not find element with matching key.
 			{
-				std::cout << "There is no point labelled \"" << input << "\" in the map.\n" << std::endl;
+				std::cout << "There is no point labeled \"" << input << "\" in the map.\n" << std::endl;
 			}
 		}
 	}
@@ -144,13 +158,13 @@ int main()
 	 *	occurred and show what exception was thrown.
 	 ******************************************************************************/
 
-	 catch(std::exception e)  // an exception was thrown
+	 catch(std::exception e)  // an exception was thrown. Message is displayed with runtime_error()
 	 {
 	 	std::cerr << "An exception was thrown: " << e.what() <<  std::endl << std::endl;
 	 	std::cout << "---------------------------------" << std::endl;
 	 	Pause();
 	 }
-	 catch (...)
+	 catch (...) // An unexpected exception was thrown. Display error number here.
 	 {
 		 std::cerr << "Am error occured at run-time: " << strerror(errno) << std::endl << std::endl;
 		 std::cout << "---------------------------------" << std::endl;;
