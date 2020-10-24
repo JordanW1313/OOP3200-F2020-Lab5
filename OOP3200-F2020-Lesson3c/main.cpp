@@ -57,6 +57,8 @@ int main()
 		std::string emptyCheck{};
 
 		infile.open(fileName.c_str());
+
+		// Check if file is open and empty
 		if (infile.peek() == std::ifstream::traits_type::eof() && infile.is_open())
 		{
 			// Throw an empty file error.
